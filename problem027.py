@@ -40,8 +40,10 @@ def is_prime(p):
     if p < is_prime.max_prime:
         return False
         pass
+    if p < 0:
+        return is_prime(abs(p))
+        pass
 
-    print "bla"
     is_prime.primes = frozenset(primes_up_to(p*2))
     is_prime.max_prime = max(is_prime.primes)
     return is_prime(p)
@@ -53,8 +55,11 @@ is_prime.max_prime = max(is_prime.primes)
 def consecutive_primes_for(a, b):
     return next(dropwhile(lambda n: is_prime(n**2 + a*n + b), count(0)))-1
 
-a = range(-999, 1000)
-b = range(-999, 1000)
+# 'a' needs to be odd, otherwise for every odd 'n', the result is even
+a = range(-999, 1000, 2)
+# 'b' needs to be prime, otherwise for n=0 the formula will never give a prime
+b = filter(is_prime, range(-999, 1000, 2))
+
 print max( \
         map(lambda (a, b): (consecutive_primes_for(a, b), a * b), product(a, b)), \
         key=(lambda (consecutive_primes, product_a_b): consecutive_primes) \
