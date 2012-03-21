@@ -1,4 +1,4 @@
-from itertools import count, ifilter
+from itertools import ifilter, count, permutations, combinations_with_replacement
 """
 Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
 
@@ -13,10 +13,32 @@ Find the sum of all the numbers that can be written as the sum of fifth powers o
 """
 
 power = 5
-limit = ifilter(lambda i: 10**i > i*(9**power), count(1)).next() * 9**power + 1
+limit = ifilter(lambda i: 10**i > i*(9**power), count(1)).next()
 
-def sum_of_X_powers_of_the_digits_of(n):
-    return reduce(lambda x, y: x + int(y)**power, str(n), 0)
+def int_from_list_of_strings(ns):
+    return int(''.join(ns))
+
+def x_th_power_of(ns, power): # ns = tupel of strings, each string is a single number
+    return reduce(lambda x, y: x + int(y)**power, ns, 0)
     pass
 
-print sum(filter(lambda n: n == sum_of_X_powers_of_the_digits_of(n), range(2, limit)))
+def t(ns, power): # ns = tupel of strings, each string is a single number
+    summe = x_th_power_of(ns, power)
+    for i in permutations(ns, len(ns)):
+        nummer = int_from_list_of_strings(i)
+        if summe == nummer:
+            return nummer
+            pass
+        if summe < nummer:
+            break
+            pass
+        pass
+    return 0
+    pass
+
+
+print reduce( \
+        lambda x, y: x + t(y, power), \
+        combinations_with_replacement(map(str, range(10)), r=limit), \
+        0 \
+        ) -1
