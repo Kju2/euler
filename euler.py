@@ -97,6 +97,17 @@ def primes_up_to(limit):
 
     return [2] + [2 * p + 1 for p in sieve if p]
 
+def int_to_list(number):
+    """
+    int_to_list - returns a list of digits of a positive number.
+
+    >>> int_to_list(42)
+    [4, 2]
+    >>> int_to_list(101)
+    [1, 0, 1]
+    """
+    return map(int, str(number))
+
 
 def list_to_int(digits):
     """
