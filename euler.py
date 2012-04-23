@@ -5,6 +5,33 @@ euler - a collection of functions useful in more than one euler problem
 from math import log10, sqrt
 
 
+def divisors_of(number):
+    """
+    divisors_of returns a set of all divisors of the given number.
+
+    >>> divisors_of(36) == set([1, 2, 3, 4, 6, 9, 12, 18, 36])
+    True
+    >>> divisors_of(220) == set([1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110, 220])
+    True
+    >>> [divisors_of(n) for n in range(100000)] != []
+    True
+    """
+    divisors = {d for d in range(1, int(sqrt(number) + 1)) if number % d == 0}
+    return divisors.union({number // d for d in divisors})
+
+
+def int_to_list(number):
+    """
+    int_to_list - returns a list of digits of a positive number.
+
+    >>> int_to_list(42)
+    [4, 2]
+    >>> int_to_list(101)
+    [1, 0, 1]
+    """
+    return [int(n) for n in str(number)]
+
+
 def is_int_pandigital(number):
     """
     is_int_pandigital tests if a int number is pandigital. A pandigital number
@@ -64,51 +91,6 @@ def is_prime(number):
     return True
 
 
-def primes_up_to(limit):
-    """
-    primes_up_to returns a list of primes up to the given limit using
-    the sieve of Eratosthenes.
-
-    >>> primes_up_to(0)
-    []
-    >>> primes_up_to(2)
-    []
-    >>> primes_up_to(3)
-    [2]
-    >>> primes_up_to(7)
-    [2, 3, 5]
-    >>> primes_up_to(42)
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
-    >>> all(filter(is_prime, primes_up_to(10 ** 5)))
-    True
-    """
-
-    if limit <= 2:
-        return []
-
-    sieve_bound = limit // 2
-    sieve = list(range(sieve_bound))
-    cross_limit = int((sqrt(limit) - 1) / 2)
-
-    for i in range(cross_limit + 1):
-        if sieve[i]:  # 2 * i + 1 is prime, mark multiples
-            for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
-                sieve[j] = 0
-
-    return [2] + [2 * p + 1 for p in sieve if p]
-
-def int_to_list(number):
-    """
-    int_to_list - returns a list of digits of a positive number.
-
-    >>> int_to_list(42)
-    [4, 2]
-    >>> int_to_list(101)
-    [1, 0, 1]
-    """
-    return map(int, str(number))
-
-
 def list_to_int(digits):
     """
     list_to_int - joins a list of digits to an integer. The digits can be
@@ -137,6 +119,39 @@ def list_to_int(digits):
         number += int(digit)
 
     return number
+
+
+def primes_up_to(limit):
+    """
+    primes_up_to returns a list of primes up to the given limit using
+    the sieve of Eratosthenes.
+
+    >>> primes_up_to(0)
+    []
+    >>> primes_up_to(2)
+    []
+    >>> primes_up_to(3)
+    [2]
+    >>> primes_up_to(7)
+    [2, 3, 5]
+    >>> primes_up_to(42)
+    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+    >>> all(filter(is_prime, primes_up_to(10 ** 5)))
+    True
+    """
+    if limit <= 2:
+        return []
+
+    sieve_bound = limit // 2
+    sieve = list(range(sieve_bound))
+    cross_limit = int((sqrt(limit) - 1) / 2)
+
+    for i in range(cross_limit + 1):
+        if sieve[i]:  # 2 * i + 1 is prime, mark multiples
+            for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
+                sieve[j] = 0
+
+    return [2] + [2 * p + 1 for p in sieve if p]
 
 
 if __name__ == "__main__":
