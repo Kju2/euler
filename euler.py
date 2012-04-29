@@ -32,6 +32,33 @@ def int_to_list(number):
     return [int(n) for n in str(number)]
 
 
+def is_even(number):
+    """
+    is_even - returns True if a number is even, False otherwise.
+    >>> is_even(0)
+    True
+    >>> is_even(1)
+    False
+    >>> is_even(2)
+    True
+    >>> map(is_even, [3, 4, 5, 6, 7, 8, 9, 10])
+    [False, True, False, True, False, True, False, True]
+    """
+    return number % 2 == 0
+
+
+def is_integer(number):
+    """
+    is_integer - returns True if a number is without decimal part, False
+    otherwise.
+    >>> is_integer(10)
+    True
+    >>> is_integer(192.9320)
+    False
+    """
+    return number % 1 == 0
+
+
 def is_int_pandigital(number):
     """
     is_int_pandigital tests if a int number is pandigital. A pandigital number
@@ -59,6 +86,19 @@ def is_int_pandigital(number):
         base[rest - 1] = True
 
     return all(base)
+
+
+def is_odd(number):
+    """
+    is_odd - return True if a number is odd, False otherwise.
+    >>> is_odd(1)
+    True
+    >>> is_odd(2)
+    False
+    >>> map(is_odd, [3, 4, 5, 6, 7, 8, 9, 10])
+    [True, False, True, False, True, False, True, False]
+    """
+    return not is_even(number)
 
 
 def is_prime(number):
