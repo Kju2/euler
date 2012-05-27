@@ -20,6 +20,19 @@ def divisors_of(number):
     return divisors.union({number // d for d in divisors})
 
 
+def fib():
+    """
+    fib calculates the Fibonacci sequence
+    """
+    a, b = 0, 1
+
+    while True:
+        yield b
+        a, b = b, a+b
+        pass
+    pass
+
+
 def int_to_list(number):
     """
     int_to_list - returns a list of digits of a positive number.
