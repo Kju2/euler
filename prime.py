@@ -4,42 +4,100 @@ prime - a collection of prime number related functions
 
 from math import sqrt
 
-_PRIMES_MAX = 2
-_PRIMES_CACHE = [2]
-_PRIMES_SET_CACHE = set(_PRIMES_CACHE)
 
-
-def _ensure_primes_up_to(limit):
-    """ _ensure_primes_up_to is a helper function ensure the prime number
-    caches are initalized.
+class Primes(tuple):
+    """Primes is a container class for prime numbers. It behaves like range in
+    it construction.
     """
-    global _PRIMES_MAX
-    global _PRIMES_CACHE
-    global _PRIMES_SET_CACHE
-    if _PRIMES_MAX < limit:
-        _PRIMES_CACHE = primes_up_to(limit * 10)
-        _PRIMES_SET_CACHE = set(_PRIMES_CACHE)
-        _PRIMES_MAX = max(_PRIMES_CACHE)
+
+    __solts__ = ['primes_set']
+
+    def __new__(cls, start, stop=None):
+        if stop is None:
+            stop = start
+            start = 0
+
+        instance = tuple.__new__(cls, cls.primes(start, stop))
+        instance.primes_set = frozenset(instance)
+        return instance
+
+    @classmethod
+    def primes(cls, start, stop):
+        """primes returns a list of primes from the lower bound (start) to
+        the upper bound (stop - exclusive) using the sieve of Eratosthenes.
+        The result is sorted.
+
+        >>> Primes.primes(0, 0)
+        []
+        >>> Primes.primes(0, 2)
+        []
+        >>> Primes.primes(0, 3)
+        [2]
+        >>> Primes.primes(3, 7)
+        [3, 5]
+        >>> Primes.primes(0, 42)
+        [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+        """
+        if stop <= 2 or start > stop:
+            return []
+
+        sieve_bound = int(stop // 2)
+        sieve = list(range(sieve_bound))
+        cross_limit = int((sqrt(stop) - 1) / 2)
+
+        for i in range(cross_limit + 1):
+            if sieve[i]:  # 2 * i + 1 is prime, mark multiples
+                for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
+                    sieve[j] = 0
+
+        return [p for p in [2] + [2 * p + 1 for p in sieve if p] if p >= start]
+
+    def __contains__(self, key):
+        """__contains__ returns True if the number is a prime, False otherwise.
+
+        >>> primes = Primes(42)
+        >>> [n for n in range(42) if n in primes]
+        [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+        """
+        return key in self.primes_set
+
+    def factors_of(self, number):
+        """factors_of calculates the prime factors of the given number. The
+        square root of the number has to be less than the biggest prime number
+        in the primes list. For number less than 2 an empty list ist returned.
+
+        >>> primes = Primes(1000)
+        >>> map(primes.factors_of, [0, 1, 2, 14, 644])
+        [[], [], [2], [2, 7], [2, 2, 7, 23]]
+        >>> primes = Primes(10)
+        >>> primes.factors_of(1234)
+        Traceback (most recent call last):
+            ...
+        IndexError: not enough primes calculated
+        """
+        prime_factors = []
+
+        if number < 2:
+            return prime_factors
+
+        if int(sqrt(number) + 1) > self[-1]:
+            raise IndexError("not enough primes calculated")
+
+        while number not in self.primes_set:
+            for prime in self:
+                if number % prime == 0:
+                    number = number / prime
+                    prime_factors.append(prime)
+                    break
+
+        prime_factors.append(number)
+        return prime_factors
 
 
 def is_prime(number):
     """
     is_prime returns True if the number is prime, False otherwise.
 
-    >>> is_prime(0)
-    False
-    >>> is_prime(1)
-    False
-    >>> is_prime(2)
-    True
-    >>> is_prime(3)
-    True
-    >>> is_prime(4)
-    False
-    >>> is_prime(36)
-    False
-    >>> is_prime(41)
-    True
     >>> [n for n in range(42) if is_prime(n)]
     [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
     """
@@ -50,71 +108,6 @@ def is_prime(number):
         if number % i == 0:
             return False
     return True
-
-
-def prime_factors_of(number):
-    """
-    >>> prime_factors_of(0)
-    []
-    >>> prime_factors_of(1)
-    []
-    >>> prime_factors_of(2)
-    [2]
-    >>> prime_factors_of(14)
-    [2, 7]
-    >>> prime_factors_of(644)
-    [2, 2, 7, 23]
-    """
-
-    prime_factors = []
-
-    if number < 2:
-        return prime_factors
-
-    _ensure_primes_up_to(number)
-
-    while number not in _PRIMES_SET_CACHE:
-        for prime in _PRIMES_CACHE:
-            if number % prime == 0:
-                number = number / prime
-                prime_factors.append(prime)
-                break
-
-    prime_factors.append(number)
-    return prime_factors
-
-
-def primes_up_to(limit):
-    """
-    primes_up_to returns a list of primes up to the given limit using
-    the sieve of Eratosthenes.
-
-    >>> primes_up_to(0)
-    []
-    >>> primes_up_to(2)
-    []
-    >>> primes_up_to(3)
-    [2]
-    >>> primes_up_to(7)
-    [2, 3, 5]
-    >>> primes_up_to(42)
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
-    >>> all(filter(is_prime, primes_up_to(10 ** 5)))
-    True
-    """
-    if limit <= 2:
-        return []
-
-    sieve_bound = int(limit // 2)
-    sieve = list(range(sieve_bound))
-    cross_limit = int((sqrt(limit) - 1) / 2)
-
-    for i in range(cross_limit + 1):
-        if sieve[i]:  # 2 * i + 1 is prime, mark multiples
-            for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
-                sieve[j] = 0
-
-    return [2] + [2 * p + 1 for p in sieve if p]
 
 
 if __name__ == "__main__":
