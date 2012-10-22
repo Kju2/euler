@@ -5,19 +5,7 @@ the product of two 2-digit numbers is 9009 = 91 * 99.
 Find the largest palindrome made from the product of two 3-digit numbers.
 """
 
-
-def is_palindrom(number):
-    """is_palindrom tests if a number is palindromic.
-
-    >>> is_palindrom(232)
-    True
-    >>> is_palindrom(9009)
-    True
-    >>> is_palindrom(23292)
-    False
-    """
-    n_str = str(number)
-    return n_str == n_str[::-1]
+from euler import is_palindrom
 
 
 def main():

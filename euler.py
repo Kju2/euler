@@ -141,6 +141,20 @@ def is_odd(number):
     return not is_even(number)
 
 
+def is_palindrom(number):
+    """is_palindrom tests if a number is palindromic.
+
+    >>> is_palindrom(232)
+    True
+    >>> is_palindrom(9009)
+    True
+    >>> is_palindrom(23292)
+    False
+    """
+    n_str = str(number)
+    return n_str == n_str[::-1]
+
+
 def list_to_int(digits):
     """
     list_to_int - joins a list of digits to an integer. The digits can be
