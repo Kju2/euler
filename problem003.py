@@ -18,6 +18,7 @@ def main():
 
     print(max(primes.factors_of(number)))
 
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
