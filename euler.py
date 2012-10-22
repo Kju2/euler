@@ -5,6 +5,35 @@ euler - a collection of functions useful in more than one euler problem
 from math import log10, sqrt
 
 
+def pascals_triangle():
+    """pascals_triangle is an generator for lines of the pascal's triangle.
+
+    >>> pt = pascals_triangle()
+    >>> pt.next()
+    [1]
+    >>> pt.next()
+    [1, 1]
+    >>> pt.next()
+    [1, 2, 1]
+    >>> pt.next()
+    [1, 3, 3, 1]
+    """
+    line = [1]
+    yield line
+
+    line = [1, 1]
+    yield line
+
+    while True:
+        new_line = [1]
+        for i in range(0, len(line) - 1):
+            new_line.append(line[i] + line[i + 1])
+
+        new_line.append(1)
+        line = new_line
+        yield new_line
+
+
 def divisors_of(number):
     """
     divisors_of returns a set of all divisors of the given number.
@@ -24,13 +53,11 @@ def fib():
     """
     fib calculates the Fibonacci sequence
     """
-    a, b = 0, 1
+    fib_n, fib_m = 0, 1
 
     while True:
-        yield b
-        a, b = b, a+b
-        pass
-    pass
+        yield fib_m
+        fib_n, fib_m = fib_m, fib_n + fib_m
 
 
 def int_to_list(number):
