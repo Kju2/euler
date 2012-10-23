@@ -21,26 +21,31 @@ What is the value of the first triangle number to have over five
 hundred divisors?
 """
 
-from euler import divisors_of
-from itertools import count, islice
+from itertools import count
+
+from prime import Primes
 
 
 def triangle_numbers():
     """
-    >>> list(islice(triangle_numbers(), 10))
-    [1, 3, 6, 10, 15, 21, 28, 36, 45, 55]
+    >>> tn = triangle_numbers()
+    >>> [tn.next(), tn.next(), tn.next(), tn.next(), tn.next()]
+    [1, 3, 6, 10, 15]
     """
     return (n * (n + 1) / 2 for n in count(1))
 
 
-def num_of_divisors_of(number):
+def num_of_divisors_of(number, primes):
     """
-    >>> num_of_divisors_of(36)
+    >>> num_of_divisors_of(36, Primes(100))
     9
-    >>> num_of_divisors_of(220)
+    >>> num_of_divisors_of(220, Primes(300))
     12
     """
-    return len(divisors_of(number))
+    result = 1
+    for value in primes.factors_of(number).viewvalues():
+        result *= (value + 1)
+    return result
 
 
 def main():
@@ -48,7 +53,12 @@ def main():
     >>> main()
     76576500
     """
-    print(next((t for t in triangle_numbers() if num_of_divisors_of(t) > 500)))
+    primes = Primes(10 ** 6)
+
+    for tn in triangle_numbers():
+        if num_of_divisors_of(tn, primes) > 500:
+            print(tn)
+            break
 
 
 if __name__ == "__main__":
