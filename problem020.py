@@ -1,4 +1,3 @@
-from math import factorial
 """
 n! means n  (n  1)  ...  3  2  1
 
@@ -8,4 +7,17 @@ and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
 Find the sum of the digits in the number 100!
 """
 
-print sum(map(int, str(factorial(100))))
+from math import factorial
+
+
+def main():
+    """
+    >>> main()
+    648
+    """
+    print(sum(map(int, str(factorial(100)))))
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
