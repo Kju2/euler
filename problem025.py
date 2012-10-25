@@ -1,5 +1,3 @@
-from math import log10
-from itertools import dropwhile
 """
 The Fibonacci sequence is defined by the recurrence relation:
 
@@ -23,13 +21,21 @@ The 12th term, F12, is the first term to contain three digits.
 What is the first term in the Fibonacci sequence to contain 1000 digits?
 """
 
-def fib():
-    a, b, i = 0, 1, 1
+from itertools import count, dropwhile, izip
+from math import log10
 
-    while True:
-        yield (b, i)
-        a, b, i = b, a+b, i+1
-        pass
-    pass
+from euler import fib
 
-print next(dropwhile(lambda (f, _): int(log10(f)) + 1 < 1000, fib()))[1]
+
+def main():
+    """
+    >>> main()
+    4782
+    """
+    fibs = izip(fib(), count(1))
+    print(next(dropwhile(lambda f: int(log10(f[0])) + 1 < 1000, fibs))[1])
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
