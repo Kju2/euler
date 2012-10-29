@@ -1,44 +1,45 @@
-from itertools import ifilter, count, permutations, combinations_with_replacement
 """
-Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
+Surprisingly there are only three numbers that can be written as the sum of
+fourth powers of their digits:
 
-1634 = 14 + 64 + 34 + 44
-8208 = 84 + 24 + 04 + 84
-9474 = 94 + 44 + 74 + 44
-As 1 = 14 is not a sum it is not included.
+1634 = 1**4 + 6**4 + 3**4 + 4**4
+8208 = 8**4 + 2**4 + 0**4 + 8**4
+9474 = 9**4 + 4**4 + 7**4 + 4**4
+As 1 = 1**4 is not a sum it is not included.
 
 The sum of these numbers is 1634 + 8208 + 9474 = 19316.
 
-Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
+Find the sum of all the numbers that can be written as the sum of fifth powers
+of their digits.
 """
 
-power = 5
-limit = ifilter(lambda i: 10**i > i*(9**power), count(1)).next()
+from itertools import combinations_with_replacement, permutations
 
-def int_from_list_of_strings(ns):
-    return int(''.join(ns))
-
-def x_th_power_of(ns, power): # ns = tupel of strings, each string is a single number
-    return reduce(lambda x, y: x + int(y)**power, ns, 0)
-    pass
-
-def t(ns, power): # ns = tupel of strings, each string is a single number
-    summe = x_th_power_of(ns, power)
-    for i in permutations(ns, len(ns)):
-        nummer = int_from_list_of_strings(i)
-        if summe == nummer:
-            return nummer
-            pass
-        if summe < nummer:
-            break
-            pass
-        pass
-    return 0
-    pass
+from euler import list_to_int
 
 
-print reduce( \
-        lambda x, y: x + t(y, power), \
-        combinations_with_replacement(map(str, range(10)), r=limit), \
-        0 \
-        ) -1
+def main():
+    """
+    >>> main()
+    443839
+    """
+    power = 5
+    limit = 6
+
+    result = (-1)  # 1 ** power isn't included
+    for combination in combinations_with_replacement(xrange(10), r=limit):
+        summe = sum([d ** power for d in combination])
+        for permutation in permutations(combination, limit):
+            number = list_to_int(permutation)
+            if summe < number:
+                break
+            elif summe == number:
+                result += number
+                break
+
+    print(result)
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
