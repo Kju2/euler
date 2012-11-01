@@ -18,7 +18,7 @@ def main():
     size = 20
 
     pascals_triangle_line_42 = next(
-            islice(pascals_triangle(), 2 * (size - 1) + 2, None)
+        islice(pascals_triangle(), 2 * (size - 1) + 2, None)
     )
     print(pascals_triangle_line_42[len(pascals_triangle_line_42) / 2])
 

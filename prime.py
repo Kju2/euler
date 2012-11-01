@@ -53,14 +53,20 @@ class Primes(tuple):
 
         return [p for p in [2] + [2 * p + 1 for p in sieve if p] if p >= start]
 
-    def __contains__(self, key):
+    def __contains__(self, item):
         """__contains__ returns True if the number is a prime, False otherwise.
 
         >>> primes = Primes(42)
         >>> [n for n in range(42) if n in primes]
         [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
         """
-        return key in self.primes_set
+        return item in self.primes_set
+
+    def __delitem__(self, key):
+        pass
+
+    def  __setitem__(self, key, value):
+        pass
 
     def factors_of(self, number):
         """factors_of calculates the prime factors of the given number. The
