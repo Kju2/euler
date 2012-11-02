@@ -2,7 +2,7 @@
 euler - a collection of functions useful in more than one euler problem
 """
 
-from math import log10, sqrt
+from math import fabs, log10, sqrt
 
 
 def pascals_triangle():
@@ -32,6 +32,25 @@ def pascals_triangle():
         new_line.append(1)
         line = new_line
         yield new_line
+
+
+def count_digits_in(number):
+    """
+    >>> count_digits_in(100)
+    3
+    >>> all([count_digits_in(n) == 1 for n in range(-9, 10)])
+    True
+    >>> all([count_digits_in(n) == 2 for n in range(10, 100)])
+    True
+    >>> all([count_digits_in(n) == 3 for n in range(100, 1000)])
+    True
+    >>> all([count_digits_in(n) == 4 for n in range(1000, 10000)])
+    True
+    """
+    if number == 0:
+        return 1
+
+    return int(log10(fabs(number)) + 1)
 
 
 def divisors_of(number):
