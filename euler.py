@@ -35,10 +35,11 @@ def pascals_triangle():
 
 
 def count_digits_in(number):
-    """
+    """count_digits_in counts the digits in positive integers.
+
     >>> count_digits_in(100)
     3
-    >>> all([count_digits_in(n) == 1 for n in range(-9, 10)])
+    >>> all([count_digits_in(n) == 1 for n in range(0, 10)])
     True
     >>> all([count_digits_in(n) == 2 for n in range(10, 100)])
     True
@@ -50,7 +51,7 @@ def count_digits_in(number):
     if number == 0:
         return 1
 
-    return int(log10(fabs(number)) + 1)
+    return int(log10(number) + 1)
 
 
 def divisors_of(number):
