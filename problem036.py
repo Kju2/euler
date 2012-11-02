@@ -8,19 +8,21 @@ base 10 and base 2.
 leading zeros.)
 """
 
+from euler import is_palindromic
 
-def is_palindrome(n):
-    middle = len(n) // 2
-    for index in xrange(middle):
-        if n[index] != n[-(index + 1)]:
-            return False
-            pass
-        pass
-    return True
-    pass
 
-numbers = range(1, 10 ** 6, 2)
-palindroms = filter(lambda n: is_palindrome(str(n)), numbers)
-palindroms = filter(lambda n: is_palindrome(bin(n)[2:]), palindroms)
+def main():
+    """
+    >>> main()
+    872187
+    """
+    numbers = xrange(1, 10 ** 6, 2)
+    palindroms = [n for n in numbers if is_palindromic(str(n))]
+    palindroms = [n for n in palindroms if is_palindromic(bin(n)[2:])]
 
-print sum(palindroms)
+    print(sum(palindroms))
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

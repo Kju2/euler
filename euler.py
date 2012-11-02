@@ -102,7 +102,7 @@ def is_integer(number):
 def is_int_pandigital(number):
     """
     is_int_pandigital tests if a int number is pandigital. A pandigital number
-    uses numbers 1 trough to the count of adigits of the number.
+    uses numbers 1 trough to the count of a digits of the number.
 
     >>> is_int_pandigital(1)
     True
@@ -141,14 +141,14 @@ def is_odd(number):
     return not is_even(number)
 
 
-def is_palindrom(number):
-    """is_palindrom tests if a number is palindromic.
+def is_palindromic(number):
+    """is_palindromic tests if a number is palindromic.
 
-    >>> is_palindrom(232)
+    >>> is_palindromic(232)
     True
-    >>> is_palindrom(9009)
+    >>> is_palindromic(9009)
     True
-    >>> is_palindrom(23292)
+    >>> is_palindromic(23292)
     False
     """
     n_str = str(number)

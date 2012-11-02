@@ -8,44 +8,39 @@ There are thirteen such primes below 100:
 How many circular primes are there below one million?
 """
 
-limit = 10 ** 6
+from euler import int_to_list, list_to_int
+from prime import Primes
 
 
-def primes_up_to(limit):
-    """the sieve of Eratosthenes"""
-    sieve_bound = (limit - 1) // 2
-    sieve = range(0, sieve_bound)
-    cross_limit = int((limit ** 0.5 - 1) / 2)
-
-    for i in range(cross_limit):
-        if sieve[i]:  # 2*i + 1 is prime, mark multiples
-            for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
-                sieve[j] = 0
-            pass
-        pass
-    pass
-    return [2] + [2 * p + 1 for p in sieve if p]
-
-primes = frozenset(primes_up_to(limit))
-
-
-def rotate(n):
+def rotate(number):
     """ return all rotations of this number"""
-    digits = list(str(n))
+    digits = int_to_list(number)
     for _ in range(len(digits)):
-        yield int(''.join(digits))
+        yield list_to_int(digits)
         digits.append(digits.pop(0))
-        pass
-    pass
 
 
-def circular_prime(n):
-    for rotated_n in rotate(n):
-        if rotated_n not in primes:
-            return False
-            pass
-        pass
-    return True
-    pass
+def main():
+    """
+    >>> main()
+    55
+    """
+    even_digits = frozenset([d for d in range(0, 10, 2)])
 
-print len(filter(circular_prime, primes))
+    primes = Primes(10 ** 6)
+
+    count = 1  # for the prime 2
+    for prime in primes:
+        # Exculde all primes that have an even digit in it.
+        if not even_digits.isdisjoint(int_to_list(prime)):
+            continue
+
+        if all((rotated_prime in primes for rotated_prime in rotate(prime))):
+            count += 1
+
+    print(count)
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

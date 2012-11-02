@@ -1,5 +1,3 @@
-from itertools import *
-from math import factorial
 """
 145 is a curious number, as 1! + 4! + 5! = 1 + 24 + 120 = 145.
 
@@ -8,17 +6,30 @@ their digits.
 
 Note: as 1! = 1 and 2! = 2 are not sums they are not included.
 """
-digits = map(str, range(10))
-factorials = map(factorial, range(0, 10))
 
-summe = -3  # 1 && 2 which are not counted
-for num_digits in range(1, 8):  # upper limit: 7 * 9! < 10**7
-    for number in combinations_with_replacement(digits, num_digits):
-        factorial_sum = sum(map(lambda x: factorials[int(x)], number))
-        if sorted(str(factorial_sum)) == list(number):
-            summe += factorial_sum
-            pass
-        pass
-    pass
+from itertools import combinations_with_replacement
+from math import factorial
 
-print summe
+from euler import int_to_list
+
+
+def main():
+    """
+    >>> main()
+    40730
+    """
+    factorials = [factorial(n) for n in range(10)]
+
+    summe = -3  # 1 & 2 which are not counted
+    for num_digits in range(8):  # upper limit: 7 * 9! < 10**7
+        for number in combinations_with_replacement(xrange(10), num_digits):
+            factorial_sum = sum((factorials[digit] for digit in number))
+            if sorted(int_to_list(factorial_sum)) == list(number):
+                summe += factorial_sum
+
+    print(summe)
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

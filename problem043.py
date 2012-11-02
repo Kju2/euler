@@ -20,52 +20,61 @@ Find the sum of all 0 to 9 pandigital numbers with this property.
 from euler import list_to_int, int_to_list
 
 
-BASE = frozenset(range(10))
+def main():
+    """
+    >>> main()
+    16695334890
+    """
+    base = frozenset(xrange(10))
 
+    result = 0
+    for d4 in [0, 2, 4, 6, 8]:  # to be divisible by 2
+        d6 = 5  # otherwise d_7 and d_8 must be equal to be divisible by 11
 
-RESULT = 0
-for d4 in [0, 2, 4, 6, 8]:  # to be divisible by 2
-    d6 = 5  # otherwise d_7 and d_8 must be equal to be divisible by 11
+        for div11 in range(506, 605, 11):  # divisible by 11
+            _, d7, d8 = int_to_list(div11)
 
-    for div11 in range(506, 605, 11):  # divisible by 11
-        _, d7, d8 = int_to_list(div11)
-
-        number = set([d4, d6])
-        if d7 in number or d8 in number:
-            continue  # not pandigital
-
-        for div17 in range(102, 1003, 17):  # divisible by 17
-            if div17 < d8 * 100 or div17 > (d8 + 1) * 100:
-                continue  # d8 doesn't match
-
-            _, d9, d10 = int_to_list(div17)
-
-            number = set([d4, d6, d7, d8])
-            if d9 in number or d10 in number:
+            number = set([d4, d6])
+            if d7 in number or d8 in number:
                 continue  # not pandigital
 
-            if list_to_int([d7, d8, d9]) % 13 != 0:
-                continue  # not divisible by 13
+            for div17 in range(102, 1003, 17):  # divisible by 17
+                if div17 < d8 * 100 or div17 > (d8 + 1) * 100:
+                    continue  # d8 doesn't match
 
-            number = set([d4, d6, d7, d8, d9, d10])
-            for d3 in BASE - number:
+                _, d9, d10 = int_to_list(div17)
 
-                number = set([d3, d4, d6, d7, d8, d9, d10])
-                for d5 in BASE - number:
+                number = set([d4, d6, d7, d8])
+                if d9 in number or d10 in number:
+                    continue  # not pandigital
 
-                    if list_to_int([d3, d4, d5]) % 3 != 0:
-                        continue  # not divisible by 3
+                if list_to_int([d7, d8, d9]) % 13 != 0:
+                    continue  # not divisible by 13
 
-                    if list_to_int([d5, d6, d7]) % 7 != 0:
-                        continue  # not divisible by 7
+                number = set([d4, d6, d7, d8, d9, d10])
+                for d3 in base - number:
 
-                    number = set([d3, d4, d5, d6, d7, d8, d9, d10])
-                    for d2 in BASE - number:
+                    number = set([d3, d4, d6, d7, d8, d9, d10])
+                    for d5 in base - number:
 
-                        number = set([d2, d3, d4, d5, d6, d7, d8, d9, d10, 0])
-                        for d1 in BASE - number:
-                            RESULT += list_to_int([ \
+                        if list_to_int([d3, d4, d5]) % 3 != 0:
+                            continue  # not divisible by 3
+
+                        if list_to_int([d5, d6, d7]) % 7 != 0:
+                            continue  # not divisible by 7
+
+                        number = set([d3, d4, d5, d6, d7, d8, d9, d10])
+                        for d2 in base - number:
+
+                            number = set([d2, d3, d4, d5, d6, d7, d8, d9,
+                                         d10, 0])
+                            for d1 in base - number:
+                                result += list_to_int([
                                     d1, d2, d3, d4, d5, d6, d7, d8, d9, d10])
 
-print(RESULT)
-# 16695334890
+    print(result)
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

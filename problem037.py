@@ -1,4 +1,3 @@
-from math import log10
 """
 The number 3797 has an interesting property. Being prime itself, it is
 possible to continuously remove digits from left to right, and remain prime at
@@ -11,44 +10,51 @@ right and right to left.
 NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 """
 
+from math import log10
 
-def primes_up_to(limit):
-    """the sieve of Eratosthenes"""
-    sieve_bound = (limit - 1) // 2
-    sieve = range(0, sieve_bound)
-    cross_limit = int((limit ** 0.5 - 1) / 2)
-
-    for i in range(cross_limit):
-        if sieve[i]:  # 2*i + 1 is prime, mark multiples
-            for j in range(2 * i * (i + 1), sieve_bound, 2 * i + 1):
-                sieve[j] = 0
-            pass
-        pass
-    pass
-    return [2] + [2 * p + 1 for p in sieve if p]
+from prime import Primes
 
 
-def truncateable_prime(n):
-    p = n
-    while p > 10:
-        #  truncate right
-        p = p / 10
-        if p not in primes:
-            return False
-            pass
-        pass
+def truncate_from_right(number):
+    """
+    >>> list(truncate_from_right(1234))
+    [123, 12, 1]
+    """
+    while number > 10:
+        number = number / 10
+        yield number
 
-    p = n
-    while p > 10:
-        #  truncate left
-        p = p % (10 ** int(log10(p)))
-        if p not in primes:
-            return False
-            pass
-        pass
 
-    return True
-    pass
+def truncate_from_left(number):
+    """
+    >>> list(truncate_from_left(1234))
+    [234, 34, 4]
+    """
+    while number > 10:
+        number = number % (10 ** int(log10(number)))
+        yield number
 
-primes = frozenset(primes_up_to(10 ** 6))
-print sum(filter(truncateable_prime, primes)) - sum([2, 3, 5, 7])
+
+def main():
+    """
+    >>> main()
+    748317
+    """
+    primes = Primes(10 ** 6)
+
+    truncatable_prime = []
+    for prime in primes:
+        if not all([n in primes for n in truncate_from_right(prime)]):
+            continue
+
+        if not all([n in primes for n in truncate_from_left(prime)]):
+            continue
+
+        truncatable_prime.append(prime)
+
+    print(sum(truncatable_prime) - sum([2, 3, 5, 7]))
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

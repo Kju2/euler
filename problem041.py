@@ -6,11 +6,23 @@ and is also prime.
 What is the largest n-digit pandigital prime that exists?
 """
 
-from euler import is_prime, list_to_int
 from itertools import permutations
 
-# 8 and 9-pandigital numbers are devisable by 3 therefore aren't prime
-SEVEN_DIGIT_PANDIGITAL = [list_to_int(p) for p in permutations(range(1, 8))]
+from euler import list_to_int
+from prime import is_prime
 
-print(max([p for p in SEVEN_DIGIT_PANDIGITAL if is_prime(p)]))
-# 7652413
+
+def main():
+    """
+    >>> main()
+    7652413
+    """
+    # 8 and 9-pandigital numbers are devisable by 3 therefore aren't prime
+    pandigital_numbers = [list_to_int(p) for p in permutations(xrange(1, 8))]
+
+    print(max([p for p in pandigital_numbers if is_prime(p)]))
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

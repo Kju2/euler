@@ -1,4 +1,3 @@
-from math import sqrt
 """
 If p is the perimeter of a right angle triangle with integral length
 sides, {a,b,c}, there are exactly three solutions for p = 120.
@@ -8,11 +7,11 @@ sides, {a,b,c}, there are exactly three solutions for p = 120.
 For which value of p <= 1000, is the number of solutions maximised?
 """
 
-
-max_perimeter = 1000
+from math import sqrt
 
 
 def pythagoren_triples(max_c):
+    """ generates all pythagoren triples up to max_c """
     #  the smallest pythagoren triple has c == 5
     for c in range(5, max_c):
         #  a as the smallest number in the triple must be between
@@ -23,10 +22,6 @@ def pythagoren_triples(max_c):
             b = int(sqrt(c ** 2 - a ** 2))
             if a ** 2 + b ** 2 == c ** 2:
                 yield (a, b, c)
-                pass
-            pass
-        pass
-    pass
 
 
 def grouper(iterable):
@@ -37,13 +32,24 @@ def grouper(iterable):
         #  otherwise use the value from the dict
         groups.setdefault(key, 0)
         groups[key] += 1
-        pass
 
     return groups
-    pass
 
-perimeters = map(sum, pythagoren_triples(max_perimeter))
-filtered_perimeters = filter(lambda pm: pm <= max_perimeter, perimeters)
-grouped_perimeters = grouper(filtered_perimeters)
 
-print max(grouped_perimeters.iteritems(), key=lambda d: d[1])[0]
+def main():
+    """
+    >>> main()
+    840
+    """
+    max_perimeter = 1000
+
+    perimeters = (sum(pt) for pt in pythagoren_triples(max_perimeter))
+    filtered_perimeters = (p for p in perimeters if p <= max_perimeter)
+    grouped_perimeters = grouper(filtered_perimeters)
+
+    print(max(grouped_perimeters.viewitems(), key=lambda d: d[1])[0])
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
