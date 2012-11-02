@@ -17,7 +17,7 @@ def main():
     for i in count(1):
         c = sorted(str(i))
         if all((c == sorted(str(i * x)) for x in (2, 3, 4, 5, 6))):
-            print i
+            print(i)
             return
 
 
