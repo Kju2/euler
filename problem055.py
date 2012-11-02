@@ -26,7 +26,7 @@ numbers; the first example is 4994.
 How many Lychrel numbers are there below ten-thousand?
 """
 
-from euler import is_palindrom
+from euler import is_palindromic
 
 
 def reverse(number):
@@ -48,10 +48,10 @@ def main():
     for i in range(1, 10000):
         for _ in range(50):
             i = i + reverse(i)
-            if is_palindrom(i):
+            if is_palindromic(i):
                 break
 
-        if not is_palindrom(i):
+        if not is_palindromic(i):
             count += 1
 
     print(count)
