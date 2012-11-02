@@ -2,35 +2,26 @@
 http://projecteuler.net/problem=104
 """
 
-from euler import count_digits_in, fib, int_to_list
-
 
 def main():
     """
     >>> main()
     329468
     """
-    base = frozenset(xrange(1, 10))
+    base = frozenset(map(str, xrange(1, 10)))
 
-    i = 0
-    fibs = fib()
-    while True:
-        f, i = next(fibs), i + 1
-        fmod = f % 1000000000
-        fs = int_to_list(fmod)
-        if not base == frozenset(fs):
-            continue
+    index = 2
+    f1, f2 = 1, 1  # first digits of fibonacci number
+    l1, l2 = 1, 1  # last digits of fibonacci number
+    while set(str(f2)[:9]) != base or set(str(l2)) != base:
+        index += 1
+        f1, f2 = f2, f1 + f2
+        if f2 > 10 ** 18:
+            f1, f2 = f1 // 10, f2 // 10
 
-        fdigits = count_digits_in(f) - 9
-        if fdigits < 0:
-            continue
+        l1, l2 = l2, (l1 + l2) % 10 ** 10
 
-        fdiv = f / 10 ** fdigits
-        fs = int_to_list(fdiv)
-        if base == frozenset(fs):
-            break
-
-    print(i)
+    print(index)
 
 
 if __name__ == "__main__":
