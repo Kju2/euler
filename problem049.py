@@ -51,8 +51,10 @@ def main():
         num2 = prime + 3330
         num3 = num2 + 3330
 
-        if (num2 in primes and is_permutation(prime, num2) and
-            num3 in primes and is_permutation(prime, num3)):
+        if (
+            num2 in primes and is_permutation(prime, num2) and
+            num3 in primes and is_permutation(prime, num3)
+        ):
             print(str(prime) + str(num2) + str(num3))
 
 

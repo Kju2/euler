@@ -12,6 +12,7 @@ Find the next triangle number that is also pentagonal and hexagonal.
 """
 
 from itertools import count, ifilter, islice
+
 from problem044 import is_pentagonal
 
 

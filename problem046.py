@@ -18,7 +18,8 @@ prime and twice a square?
 from math import sqrt
 from itertools import count
 
-from euler import is_even, is_integer, is_odd, is_prime, primes_up_to
+from euler import is_even, is_integer, is_odd
+from prime import is_prime, Primes
 
 
 def is_goldbach_number(number):
@@ -30,7 +31,8 @@ def is_goldbach_number(number):
     >>> is_goldbach_number(5777)
     False
     """
-    for prime in primes_up_to(number):
+    primes = Primes(number)
+    for prime in primes:
         step = number - prime
         if is_even(step):
             step = sqrt(step / 2)
@@ -50,7 +52,7 @@ def main():
     """
     composite_number = (n for n in count(9) if is_odd(n) and not is_prime(n))
     counter_example = (cn for cn in composite_number
-                            if not is_goldbach_number(cn))
+                       if not is_goldbach_number(cn))
     print((next(counter_example)))
 
 

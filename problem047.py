@@ -15,7 +15,8 @@ What is the first of these numbers?
 """
 
 from itertools import count
-from prime import prime_factors_of
+
+from prime import Primes
 
 
 def main():
@@ -23,7 +24,9 @@ def main():
     >>> main()
     134043
     """
-    needed_consecutive_valid_numbers = 4
+    primes = Primes(10 ** 6)
+
+    min_consecutive_valid_numbers = 4
     distinct_prime_factors = 4
 
     # next number after lower bound has to have at least distinct_prime_factors
@@ -34,10 +37,10 @@ def main():
     consecutive_valid_numbers_count = 0
 
     for number in count(lower_bound):
-        if consecutive_valid_numbers_count == needed_consecutive_valid_numbers:
+        if consecutive_valid_numbers_count == min_consecutive_valid_numbers:
             break
 
-        if len(set(prime_factors_of(number))) == distinct_prime_factors:
+        if len(set(primes.factors_of(number))) == distinct_prime_factors:
             consecutive_valid_numbers_count += 1
         else:
             consecutive_valid_numbers_count = 0
