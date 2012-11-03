@@ -110,10 +110,19 @@ def is_prime(number):
     """
     if number < 2:
         return False
+    elif number < 4:  # 2, 3 are prime
+        return True
+    elif number % 2 == 0:  # even numbers aren't prime
+        return False
+    elif number < 9:  # 5, 7 are prime
+        return True
+    elif number % 3 == 0:
+        return False
+    else:
+        for i in range(5, int(sqrt(number) + 1), 6):
+            if number % i == 0 or number % (i + 2) == 0:
+                return False
 
-    for i in range(2, int(sqrt(number) + 1)):
-        if number % i == 0:
-            return False
     return True
 
 
