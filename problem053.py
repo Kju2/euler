@@ -24,14 +24,14 @@ def main():
     """
     limit = 10 ** 6
 
-    count = 0
+    count_distinct_values = 0
     for n in range(23, 101):
         for r in range(1, n + 1):
             ncr = factorial(n) / (factorial(r) * factorial(n - r))
             if ncr > limit:
-                count += 1
+                count_distinct_values += 1
 
-    print(count)
+    print(count_distinct_values)
 
 
 if __name__ == "__main__":

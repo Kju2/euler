@@ -30,13 +30,13 @@ def main():
     >>> main()
     171
     """
-    count = 0
+    count_sundays_on_first_of_month = 0
     for year in range(1901, 2001):
         for month in range(1, 13):
             if datetime(year, month, 1).weekday() == SUNDAY:
-                count += 1
+                count_sundays_on_first_of_month += 1
 
-    print(count)
+    print(count_sundays_on_first_of_month)
 
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ def main():
     >>> main()
     107359
     """
-    cipher = [int(i) for i in open("cipher1.txt").readline().split(',')]
+    cipher = [int(i) for i in open("problem059.txt").readline().split(',')]
     for password in product(xrange(ord('a'), ord('z') + 1), repeat=3):
         text = [chr(e ^ p) for e, p in zip(cipher, cycle(password))]
         text = ''.join(text)

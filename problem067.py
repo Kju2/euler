@@ -26,7 +26,7 @@ def main():
     >>> main()
     7273
     """
-    with open("triangle.txt") as f:
+    with open("problem067.txt") as f:
         triangle = f.read().splitlines()
 
     triangle = [[int(n) for n in line.split(' ')] for line in triangle]

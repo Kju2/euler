@@ -2,7 +2,7 @@
 euler - a collection of functions useful in more than one euler problem
 """
 
-from math import fabs, log10, sqrt
+from math import log10, sqrt
 
 
 def pascals_triangle():

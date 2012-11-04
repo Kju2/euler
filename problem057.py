@@ -25,15 +25,15 @@ def main():
     >>> main()
     153
     """
-    count = 0
+    count_fractios_num_gt_denom = 0
     n = [1, 3]
     d = [1, 2]
     for _ in range(1000):
         n, d = [n[1], sum(n + d)], [d[1], n[1] + d[1]]
         if len(str(n[1])) > len(str(d[1])):
-            count += 1
+            count_fractios_num_gt_denom += 1
 
-    print(count)
+    print(count_fractios_num_gt_denom)
 
 
 if __name__ == "__main__":

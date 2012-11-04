@@ -29,16 +29,16 @@ def main():
 
     primes = Primes(10 ** 6)
 
-    count = 1  # for the prime 2
+    count_circular_primes = 1  # for the prime 2
     for prime in primes:
         # Exculde all primes that have an even digit in it.
         if not even_digits.isdisjoint(int_to_list(prime)):
             continue
 
         if all((rotated_prime in primes for rotated_prime in rotate(prime))):
-            count += 1
+            count_circular_primes += 1
 
-    print(count)
+    print(count_circular_primes)
 
 
 if __name__ == "__main__":

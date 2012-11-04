@@ -25,7 +25,10 @@ def main():
     >>> main()
     871198282
     """
-    names = [name[1:-1] for name in open("names.txt").readline().split(',')]
+    with open("problem022.txt") as f:
+        names = f.readline().split(',')
+
+    names = [name[1:-1] for name in names]
     names = enumerate(sorted(names), start=1)
     scores = (pos * worth_of_name(name) for (pos, name) in names)
     print(sum(scores))
