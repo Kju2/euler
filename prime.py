@@ -71,7 +71,7 @@ class Primes(tuple):
     def factors_of(self, number):
         """factors_of calculates the prime factors of the given number. The
         square root of the number has to be less than the biggest prime number
-        in the primes list. For number less than 2 an empty list ist returned.
+        in the primes list. For a number less than 2 an empty list is returned.
 
         >>> primes = Primes(1000)
         >>> map(primes.factors_of, [1, 14, 644])
